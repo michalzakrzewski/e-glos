@@ -1,6 +1,7 @@
 package com.zakrzewski.eglos.exceptions.handler;
 
 import com.zakrzewski.eglos.exceptions.ForbiddenException;
+import com.zakrzewski.eglos.exceptions.GeneralException;
 import com.zakrzewski.eglos.exceptions.InvalidInputException;
 import com.zakrzewski.eglos.exceptions.NotFoundException;
 import com.zakrzewski.eglos.exceptions.response.ErrorResponse;
@@ -26,6 +27,12 @@ public class AppExceptionHandler {
 
     @ExceptionHandler(Exception.class)
     public ResponseEntity<ErrorResponse> handleGenericException(Exception ex) {
+        final ErrorResponse error = new ErrorResponse("Unexpected error occurred");
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
+    }
+
+    @ExceptionHandler(GeneralException.class)
+    public ResponseEntity<ErrorResponse> handleGeneralException(GeneralException ex) {
         final ErrorResponse error = new ErrorResponse("Unexpected error occurred");
         return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(error);
     }
